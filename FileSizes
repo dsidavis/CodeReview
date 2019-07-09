@@ -1,0 +1,7 @@
+gunzip -c topic-state.gz | wc -l
+3,092,655,916
+
+
+
+biggest_topic-state.gz
+100000000

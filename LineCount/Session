@@ -1,0 +1,928 @@
+[duncantl@datasci src]$ cd ..
+[duncantl@datasci malletparsedsi]$ cd ..
+[duncantl@datasci Arthur]$ mkdir wc.c
+[duncantl@datasci Arthur]$ rmdir wc.c
+[duncantl@datasci Arthur]$ mkdir LineCount
+[duncantl@datasci Arthur]$ cd Lin
+bash: cd: Lin: No such file or directory
+[duncantl@datasci Arthur]$ mkdir LineCount
+mkdir: cannot create directory ‘LineCount’: File exists
+[duncantl@datasci Arthur]$ cd LineCount/
+[duncantl@datasci LineCount]$ ls
+[duncantl@datasci LineCount]$ ls
+lc.c  lc.c~
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+lc.c: In function ‘get_nlines’:
+lc.c:6:5: error: too few arguments to function ‘fopen’
+     FILE *f = fopen(file);
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:272:14: note: declared here
+ extern FILE *fopen (const char *__restrict __filename,
+              ^
+lc.c:11:5: warning: passing argument 1 of ‘getline’ from incompatible pointer type [enabled by default]
+     while(getline(f)) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: expected ‘char ** restrict’ but argument is of type ‘struct FILE *’
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+lc.c:11:5: error: too few arguments to function ‘getline’
+     while(getline(f)) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: declared here
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+lc.c: In function ‘R_get_nterms’:
+lc.c:23:5: warning: implicit declaration of function ‘CHAR_STRING_ELT’ [-Wimplicit-function-declaration]
+     ScalarReal(get_nlines(CHAR_STRING_ELT(fpath, 0)));
+     ^
+lc.c:23:5: warning: passing argument 1 of ‘get_nlines’ makes pointer from integer without a cast [enabled by default]
+lc.c:4:1: note: expected ‘char *’ but argument is of type ‘int’
+ get_nlines(char *file)
+ ^
+make: *** [lc.o] Error 1
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+lc.c: In function ‘get_nlines’:
+lc.c:12:5: warning: passing argument 1 of ‘getline’ from incompatible pointer type [enabled by default]
+     while(getline(line, sizeof(line), f)) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: expected ‘char ** restrict’ but argument is of type ‘char *’
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+lc.c:12:5: warning: passing argument 2 of ‘getline’ makes pointer from integer without a cast [enabled by default]
+     while(getline(line, sizeof(line), f)) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: expected ‘size_t * restrict’ but argument is of type ‘long unsigned int’
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+lc.c: In function ‘R_get_nterms’:
+lc.c:24:5: warning: implicit declaration of function ‘CHAR_STRING_ELT’ [-Wimplicit-function-declaration]
+     ScalarReal(get_nlines(CHAR_STRING_ELT(fpath, 0)));
+     ^
+lc.c:24:5: warning: passing argument 1 of ‘get_nlines’ makes pointer from integer without a cast [enabled by default]
+lc.c:4:1: note: expected ‘char *’ but argument is of type ‘int’
+ get_nlines(char *file)
+ ^
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+lc.c: In function ‘get_nlines’:
+lc.c:12:5: warning: passing argument 1 of ‘getline’ from incompatible pointer type [enabled by default]
+     while(getline(line, sizeof(line), f)) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: expected ‘char ** restrict’ but argument is of type ‘char *’
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+lc.c:12:5: warning: passing argument 2 of ‘getline’ makes pointer from integer without a cast [enabled by default]
+     while(getline(line, sizeof(line), f)) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: expected ‘size_t * restrict’ but argument is of type ‘long unsigned int’
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+lc.c: In function ‘R_get_nterms’:
+lc.c:24:5: warning: passing argument 1 of ‘get_nlines’ discards ‘const’ qualifier from pointer target type [enabled by default]
+     ScalarReal(get_nlines(CHAR(STRING_ELT(fpath, 0))));
+     ^
+lc.c:4:1: note: expected ‘char *’ but argument is of type ‘const char *’
+ get_nlines(char *file)
+ ^
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+lc.c: In function ‘get_nlines’:
+lc.c:12:5: warning: passing argument 1 of ‘getline’ from incompatible pointer type [enabled by default]
+     while(getline(&line, sizeof(line), f) > 0) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: expected ‘char ** restrict’ but argument is of type ‘char (*)[20000]’
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+lc.c:12:5: warning: passing argument 2 of ‘getline’ makes pointer from integer without a cast [enabled by default]
+     while(getline(&line, sizeof(line), f) > 0) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: expected ‘size_t * restrict’ but argument is of type ‘long unsigned int’
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+lc.c: In function ‘R_get_nterms’:
+lc.c:24:5: warning: passing argument 1 of ‘get_nlines’ discards ‘const’ qualifier from pointer target type [enabled by default]
+     ScalarReal(get_nlines(CHAR(STRING_ELT(fpath, 0))));
+     ^
+lc.c:4:1: note: expected ‘char *’ but argument is of type ‘const char *’
+ get_nlines(char *file)
+ ^
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+lc.c: In function ‘get_nlines’:
+lc.c:12:5: warning: passing argument 2 of ‘getline’ makes pointer from integer without a cast [enabled by default]
+     while(getline(&p, sizeof(line), f) > 0) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: expected ‘size_t * restrict’ but argument is of type ‘long unsigned int’
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+lc.c: In function ‘R_get_nterms’:
+lc.c:24:5: warning: passing argument 1 of ‘get_nlines’ discards ‘const’ qualifier from pointer target type [enabled by default]
+     ScalarReal(get_nlines(CHAR(STRING_ELT(fpath, 0))));
+     ^
+lc.c:4:1: note: expected ‘char *’ but argument is of type ‘const char *’
+ get_nlines(char *file)
+ ^
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+lc.c: In function ‘get_nlines’:
+lc.c:12:5: warning: passing argument 2 of ‘getline’ makes pointer from integer without a cast [enabled by default]
+     while(getline(&p, sizeof(line), f) > 0) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: expected ‘size_t * restrict’ but argument is of type ‘long unsigned int’
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ R
+WARNING: ignoring environment value of R_HOME
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+PID = 64786 
+Time = 2019-07-07 09:36:39 
+Dir = /home/duncantl/Arthur/LineCount 
+1> dyn.load("lc.so")
+[36:44] 2> system.time({txt = system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)})
+   user  system elapsed 
+  0.020   0.038   0.471 
+[37:03] 3> system.time({n = .Call("get_nlines", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+
+ *** caught segfault ***
+address 0xffffffffffffffff, cause 'memory not mapped'
+
+Traceback:
+ 1: system.time({    n = .Call("get_nlines", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+
+Possible actions:
+1: abort (with core dump, if enabled)
+2: normal R exit
+3: exit R without saving workspace
+4: exit R saving workspace
+Selection:   C-c C-\^\Quit
+[duncantl@datasci LineCount]$ R
+WARNING: ignoring environment value of R_HOME
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+PID = 64820 
+Time = 2019-07-07 09:37:37 
+Dir = /home/duncantl/Arthur/LineCount 
+1> dyn.load("lc.so")
+[37:39] 2> system.time({n = .Call("get_nlines", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+
+ *** caught segfault ***
+address 0xffffffffffffffff, cause 'memory not mapped'
+
+Traceback:
+ 1: system.time({    n = .Call("get_nlines", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+
+Possible actions:
+1: abort (with core dump, if enabled)
+2: normal R exit
+3: exit R without saving workspace
+4: exit R saving workspace
+Selection:   C-c C-\^\Quit
+[duncantl@datasci LineCount]$ R
+WARNING: ignoring environment value of R_HOME
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+PID = 64829 
+Time = 2019-07-07 09:37:48 
+Dir = /home/duncantl/Arthur/LineCount 
+1> system.time({txt = system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)})
+   user  system elapsed 
+  0.024   0.013   0.038 
+[37:50] 2> txt
+[1] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[37:55] 3> q()
+Save workspace image? [y/n/c]: 
+Save workspace image? [y/n/c]: n
+[duncantl@datasci LineCount]$ R -d gdb
+WARNING: ignoring environment value of R_HOME
+GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-114.el7
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-redhat-linux-gnu".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>...
+Reading symbols from /home/duncantl/local/lib64/R/bin/exec/R...done.
+(gdb) run
+Starting program: /home/duncantl/local/lib64/R/bin/exec/R 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+PID = 64858 
+Time = 2019-07-07 09:38:24 
+Dir = /home/duncantl/Arthur/LineCount 
+1> dyn.load("lc.so")
+[38:27] 2> system.time({n = .Call("get_nlines", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+
+Program received signal SIGSEGV, Segmentation fault.
+do_set (call=0x18e4700, op=0x9edea8, args=<optimized out>, rho=0xa17f70) at eval.c:2586
+2586		INCREMENT_NAMED(rhs);
+Missing separate debuginfos, use: debuginfo-install bzip2-libs-1.0.6-13.el7.x86_64 glibc-2.17-260.el7_6.4.x86_64 libgcc-4.8.5-36.el7_6.2.x86_64 libgfortran-4.8.5-36.el7_6.2.x86_64 libgomp-4.8.5-36.el7_6.2.x86_64 libicu-50.1.2-17.el7.x86_64 libquadmath-4.8.5-36.el7_6.2.x86_64 libstdc++-4.8.5-36.el7_6.2.x86_64 ncurses-libs-5.9-14.20130511.el7_4.x86_64 pcre-8.32-17.el7.x86_64 readline-6.2-10.el7.x86_64 xz-libs-5.2.2-1.el7.x86_64 zlib-1.2.7-18.el7.x86_64
+(gdb) up
+#1  0x00000000004c0f31 in Rf_eval (e=0x18e4700, rho=rho@entry=0xa17f70) at eval.c:700
+700		    tmp = PRIMFUN(op) (e, op, CDR(e), rho);
+(gdb) 
+#2  0x00000000004c37c9 in do_begin (call=0x18e46c8, op=0x9edd58, args=0x18e45e8, rho=0xa17f70) at eval.c:2192
+2192		    s = eval(CAR(args), rho);
+(gdb) q
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+lc.c: In function ‘get_nlines’:
+lc.c:12:5: warning: passing argument 2 of ‘getline’ makes pointer from integer without a cast [enabled by default]
+     while(getline(&p, sizeof(line), f) > 0) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: expected ‘size_t * restrict’ but argument is of type ‘long unsigned int’
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ R
+WARNING: ignoring environment value of R_HOME
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+PID = 64888 
+Time = 2019-07-07 09:38:55 
+Dir = /home/duncantl/Arthur/LineCount 
+1> dyn.load("lc.so")
+[38:58] 2> system.time({n = .Call("get_nlines", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+
+ *** caught segfault ***
+address 0xffffffffffffffff, cause 'memory not mapped'
+
+Traceback:
+ 1: system.time({    n = .Call("get_nlines", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+
+Possible actions:
+1: abort (with core dump, if enabled)
+2: normal R exit
+3: exit R without saving workspace
+4: exit R saving workspace
+Selection:   C-c C-\^\Quit
+[duncantl@datasci LineCount]$ rm lc.o
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+lc.c: In function ‘get_nlines’:
+lc.c:12:5: warning: passing argument 2 of ‘getline’ makes pointer from integer without a cast [enabled by default]
+     while(getline(&p, sizeof(line), f) > 0) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: expected ‘size_t * restrict’ but argument is of type ‘long unsigned int’
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ R -d gdb
+WARNING: ignoring environment value of R_HOME
+GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-114.el7
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-redhat-linux-gnu".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>...
+Reading symbols from /home/duncantl/local/lib64/R/bin/exec/R...done.
+(gdb) r
+Starting program: /home/duncantl/local/lib64/R/bin/exec/R 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+PID = 64931 
+Time = 2019-07-07 09:39:24 
+Dir = /home/duncantl/Arthur/LineCount 
+1> dyn.load("lc.so")
+[39:28] 2> system.time({n = .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00007ffff5536789 in getdelim () from /lib64/libc.so.6
+Missing separate debuginfos, use: debuginfo-install bzip2-libs-1.0.6-13.el7.x86_64 glibc-2.17-260.el7_6.4.x86_64 libgcc-4.8.5-36.el7_6.2.x86_64 libgfortran-4.8.5-36.el7_6.2.x86_64 libgomp-4.8.5-36.el7_6.2.x86_64 libicu-50.1.2-17.el7.x86_64 libquadmath-4.8.5-36.el7_6.2.x86_64 libstdc++-4.8.5-36.el7_6.2.x86_64 ncurses-libs-5.9-14.20130511.el7_4.x86_64 pcre-8.32-17.el7.x86_64 readline-6.2-10.el7.x86_64 xz-libs-5.2.2-1.el7.x86_64 zlib-1.2.7-18.el7.x86_64
+(gdb) up
+#1  0x00007fffeb8f2856 in get_nlines (file=0x10067b0 "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt") at lc.c:12
+12	    while(getline(&p, sizeof(line), f) > 0) {
+(gdb) q
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+lc.c: In function ‘get_nlines’:
+lc.c:11:5: warning: implicit declaration of function ‘malloc’ [-Wimplicit-function-declaration]
+     char *p = malloc(20000);
+     ^
+lc.c:11:15: warning: incompatible implicit declaration of built-in function ‘malloc’ [enabled by default]
+     char *p = malloc(20000);
+               ^
+lc.c:12:30: error: ‘line’ undeclared (first use in this function)
+     while(getline(&p, sizeof(line), f) > 0) {
+                              ^
+lc.c:12:30: note: each undeclared identifier is reported only once for each function it appears in
+lc.c:15:5: warning: implicit declaration of function ‘free’ [-Wimplicit-function-declaration]
+     free(p);
+     ^
+lc.c:15:5: warning: incompatible implicit declaration of built-in function ‘free’ [enabled by default]
+make: *** [lc.o] Error 1
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+lc.c: In function ‘get_nlines’:
+lc.c:13:30: error: ‘line’ undeclared (first use in this function)
+     while(getline(&p, sizeof(line), f) > 0) {
+                              ^
+lc.c:13:30: note: each undeclared identifier is reported only once for each function it appears in
+make: *** [lc.o] Error 1
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+lc.c: In function ‘get_nlines’:
+lc.c:13:5: warning: passing argument 2 of ‘getline’ makes pointer from integer without a cast [enabled by default]
+     while(getline(&p, 20000, f) > 0) {
+     ^
+In file included from lc.c:1:0:
+/usr/include/stdio.h:678:20: note: expected ‘size_t * restrict’ but argument is of type ‘int’
+ extern _IO_ssize_t getline (char **__restrict __lineptr,
+                    ^
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ R -d gdb
+WARNING: ignoring environment value of R_HOME
+GNU gdb (GDB) Red Hat Enterprise Linux 7.6.1-114.el7
+Copyright (C) 2013 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.  Type "show copying"
+and "show warranty" for details.
+This GDB was configured as "x86_64-redhat-linux-gnu".
+For bug reporting instructions, please see:
+<http://www.gnu.org/software/gdb/bugs/>...
+Reading symbols from /home/duncantl/local/lib64/R/bin/exec/R...done.
+(gdb) r
+Starting program: /home/duncantl/local/lib64/R/bin/exec/R 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+PID = 65082 
+Time = 2019-07-07 09:42:10 
+Dir = /home/duncantl/Arthur/LineCount 
+1> dyn.load("lc.so")
+[42:11] 2> system.time({n = .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00007ffff5536789 in getdelim () from /lib64/libc.so.6
+Missing separate debuginfos, use: debuginfo-install bzip2-libs-1.0.6-13.el7.x86_64 glibc-2.17-260.el7_6.4.x86_64 libgcc-4.8.5-36.el7_6.2.x86_64 libgfortran-4.8.5-36.el7_6.2.x86_64 libgomp-4.8.5-36.el7_6.2.x86_64 libicu-50.1.2-17.el7.x86_64 libquadmath-4.8.5-36.el7_6.2.x86_64 libstdc++-4.8.5-36.el7_6.2.x86_64 ncurses-libs-5.9-14.20130511.el7_4.x86_64 pcre-8.32-17.el7.x86_64 readline-6.2-10.el7.x86_64 xz-libs-5.2.2-1.el7.x86_64 zlib-1.2.7-18.el7.x86_64
+(gdb) up
+#1  0x00007fffeb8f28da in get_nlines (file=0x10067b0 "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt") at lc.c:13
+13	    while(getline(&p, 20000, f) > 0) {
+(gdb) print f
+$1 = (FILE *) 0x1aca640
+(gdb) q
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ R
+WARNING: ignoring environment value of R_HOME
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+PID = 65128 
+Time = 2019-07-07 09:43:06 
+Dir = /home/duncantl/Arthur/LineCount 
+1> >
+[43:17] 4> 
+[43:17] 4> q()
+Save workspace image? [y/n/c]: n
+[duncantl@datasci LineCount]$ R CMD SHLIB cpp.cc
+WARNING: ignoring environment value of R_HOME
+make: *** No rule to make target `cpp.o', needed by `cpp.so'.  Stop.
+[duncantl@datasci LineCount]$ R CMD SHLIB cpp.cc
+WARNING: ignoring environment value of R_HOME
+g++ -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -fPIC -c cpp.cc -o cpp.o
+cpp.cc: In function ‘int get_nterms(std::string)’:
+cpp.cc:19:31: error: no matching function for call to ‘std::basic_ifstream<char>::basic_ifstream(std::string&)’
+     std::ifstream infile(fpath);
+                               ^
+cpp.cc:19:31: note: candidates are:
+In file included from cpp.cc:3:0:
+/usr/include/c++/4.8.2/fstream:467:7: note: std::basic_ifstream<_CharT, _Traits>::basic_ifstream(const char*, std::ios_base::openmode) [with _CharT = char; _Traits = std::char_traits<char>; std::ios_base::openmode = std::_Ios_Openmode]
+       basic_ifstream(const char* __s, ios_base::openmode __mode = ios_base::in)
+       ^
+/usr/include/c++/4.8.2/fstream:467:7: note:   no known conversion for argument 1 from ‘std::string {aka std::basic_string<char>}’ to ‘const char*’
+/usr/include/c++/4.8.2/fstream:453:7: note: std::basic_ifstream<_CharT, _Traits>::basic_ifstream() [with _CharT = char; _Traits = std::char_traits<char>]
+       basic_ifstream() : __istream_type(), _M_filebuf()
+       ^
+/usr/include/c++/4.8.2/fstream:453:7: note:   candidate expects 0 arguments, 1 provided
+/usr/include/c++/4.8.2/fstream:427:11: note: std::basic_ifstream<char>::basic_ifstream(const std::basic_ifstream<char>&)
+     class basic_ifstream : public basic_istream<_CharT, _Traits>
+           ^
+/usr/include/c++/4.8.2/fstream:427:11: note:   no known conversion for argument 1 from ‘std::string {aka std::basic_string<char>}’ to ‘const std::basic_ifstream<char>&’
+make: *** [cpp.o] Error 1
+[duncantl@datasci LineCount]$ cd ../malletparsedsi/src/
+[duncantl@datasci src]$ R CMD COMPILE rcpp_parse_word_topic_counts.cpp 
+WARNING: ignoring environment value of R_HOME
+g++ -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -fPIC -c rcpp_parse_word_topic_counts.cpp -o rcpp_parse_word_topic_counts.o
+rcpp_parse_word_topic_counts.cpp:1:18: fatal error: Rcpp.h: No such file or directory
+ #include <Rcpp.h>
+                  ^
+compilation terminated.
+make: *** [rcpp_parse_word_topic_counts.o] Error 1
+[duncantl@datasci src]$ rm rcpp_parse_word_topic_counts.o
+[duncantl@datasci src]$ cd ..
+[duncantl@datasci malletparsedsi]$ R CMD INSTALL .
+WARNING: ignoring environment value of R_HOME
+* installing to library ‘/home/duncantl/Rpackages’
+* installing *source* package ‘malletparseDSI’ ...
+** libs
+make: *** No rule to make target `.#rcpp_parse_word_topic_counts.cpp', needed by `.#rcpp_parse_word_topic_counts.o'.  Stop.
+ERROR: compilation failed for package ‘malletparseDSI’
+* removing ‘/home/duncantl/Rpackages/malletparseDSI’
+* restoring previous ‘/home/duncantl/Rpackages/malletparseDSI’
+[duncantl@datasci malletparsedsi]$ R CMD INSTALL .
+WARNING: ignoring environment value of R_HOME
+* installing to library ‘/home/duncantl/Rpackages’
+* installing *source* package ‘malletparseDSI’ ...
+** libs
+g++ -std=gnu++11 -I/home/duncantl/local/lib64/R/include -DNDEBUG  -I"/home/duncantl/Rpackages/Rcpp/include" -I/usr/local/include   -fpic  -g -O2 -c rcpp_parse_word_topic_counts.cpp -o rcpp_parse_word_topic_counts.o
+g++ -std=gnu++11 -shared -L/usr/local/lib64 -o malletparseDSI.so RcppExports.o rcpp_parse_doc_topics.o rcpp_parse_topic_state.o rcpp_parse_topic_word_weights.o rcpp_parse_word_topic_counts.o
+installing to /home/duncantl/Rpackages/malletparseDSI/libs
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded
+* DONE (malletparseDSI)
+[duncantl@datasci malletparsedsi]$ cd ../LineCount/
+[duncantl@datasci LineCount]$ g++ -std=gnu++11 -I/home/duncantl/local/lib64/R/include -DNDEBUG  -I"/home/duncantl/Rpackages/Rcpp/include" -I/usr/local/include   -fpic  -g -O2 -c cpp.cc -o cpp.o
+[duncantl@datasci LineCount]$ R CMD SHLIB -o cpp cpp.o
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o cpp cpp.o
+[duncantl@datasci LineCount]$ R
+WARNING: ignoring environment value of R_HOME
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+PID = 65668 
+Time = 2019-07-07 09:56:53 
+Dir = /home/duncantl/Arthur/LineCount 
+1> dyn.load("cpp.o")
+Error in dyn.load("cpp.o") : 
+  unable to load shared object '/home/duncantl/Arthur/LineCount/cpp.o':
+  /home/duncantl/Arthur/LineCount/cpp.o: only ET_DYN and ET_EXEC can be loaded
+
+Enter a frame number, or 0 to exit   
+
+1: dyn.load("cpp.o")
+
+Selection: 0
+1> q()
+Save workspace image? [y/n/c]: n
+[duncantl@datasci LineCount]$ ls
+cpp  cpp.cc  cpp.o  lc.c  lc.c~  lc.o  lc.so  Makevars	Results
+[duncantl@datasci LineCount]$ rm cpp.o
+[duncantl@datasci LineCount]$ R CMD SHLIB cpp.cc
+WARNING: ignoring environment value of R_HOME
+g++ -std=gnu++11 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include  -I"/home/duncantl/Rpackages/Rcpp/include" -I/usr/local/include -fpic  -g -O2 -c cpp.cc -o cpp.o
+g++ -std=gnu++11 -shared -L/usr/local/lib64 -o cpp.so cpp.o
+[duncantl@datasci LineCount]$ R
+WARNING: ignoring environment value of R_HOME
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+PID = 65871 
+Time = 2019-07-07 10:01:46 
+Dir = /home/duncantl/Arthur/LineCount 
+1> dyn.load("cpp.so")
+[01:53] 2> system.time({n = .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+Error in .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt") : 
+  C symbol name "R_get_nterms" not in load table
+
+Enter a frame number, or 0 to exit   
+
+1: system.time({
+    n = .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/N
+
+Selection: 0
+Timing stopped at: 0.004 0 16.18
+[01:53] 2> q()
+Save workspace image? [y/n/c]: n
+[duncantl@datasci LineCount]$ R CMD SHLIB cpp.cc
+WARNING: ignoring environment value of R_HOME
+g++ -std=gnu++11 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include  -I"/home/duncantl/Rpackages/Rcpp/include" -I/usr/local/include -fpic  -g -O2 -c cpp.cc -o cpp.o
+g++ -std=gnu++11 -shared -L/usr/local/lib64 -o cpp.so cpp.o
+[duncantl@datasci LineCount]$ R
+WARNING: ignoring environment value of R_HOME
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+PID = 65917 
+Time = 2019-07-07 10:02:37 
+Dir = /home/duncantl/Arthur/LineCount 
+1> dyn.load("cpp.so")
+[02:42] 2> system.time({n = .Call("R_get_nterms_cpp", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+   user  system elapsed 
+  0.079   0.009   0.089 
+[02:49] 3> system.time({n = .Call("R_get_nterms_cpp", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+   user  system elapsed 
+  0.079   0.007   0.086 
+[02:55] 4> 
+[02:55] 4> n
+[1] 926189
+[03:01] 5> tm.cc = system.time(replicate(30, .Call("R_get_nterms_cpp", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")))
+[03:31] 6> tm.cc = system.time(replicate(30, .Call("R_get_nterms_cpp", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")))
+
+[05:00] 7> 
+[05:00] 7> [05:00] 7> 
+[05:00] 7> 
+[05:00] 7> txt = system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)
+[05:04] 8> txt
+[1] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[05:05] 9> B = 30
+[05:35] 10> tm.wc = system.time(replicate(B, system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)))
+tm.wcf = system.time(replicate(B, as.integer(gsub(" .*", "", system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)))))
+[05:43] 11> [05:44] 12> tm.wc
+   user  system elapsed 
+  0.680   0.349   1.026 
+[05:45] 13> tm.wcf
+   user  system elapsed 
+  0.662   0.328   0.987 
+[05:49] 14> tm.wc = system.time(replicate(B, system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)))
+tm.wcf = system.time(replicate(B, as.integer(gsub(" .*", "", system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)))))
+[06:05] 15> [06:06] 16> tm.wc
+   user  system elapsed 
+  0.662   0.353   1.013 
+[06:08] 17> tm.wcf
+   user  system elapsed 
+  0.677   0.316   0.989 
+[06:10] 18> tm.c = system.time(replicate(B,  .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")))
+Error in .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt") : 
+  C symbol name "R_get_nterms" not in load table
+
+Enter a frame number, or 0 to exit   
+
+1: system.time(replicate(B, .Call("R_get_nterms", "/dsl/David_Kyle_Creativenes
+2: replicate(B, .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_
+3: sapply(integer(n), eval.parent(substitute(function(...) expr)), simplify = 
+4: lapply(X = X, FUN = FUN, ...)
+5: FUN(X[[i]], ...)
+
+Selection: 0
+Timing stopped at: 0.003 0 1.21
+[06:10] 18> dyn.load("lc.so")
+tm.c = system.time(replicate(B,  .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")))
+[06:39] 19> [06:41] 20> tm.c
+   user  system elapsed 
+  1.043   0.119   1.162 
+[06:42] 21> dyn.load("cpp.so")
+tm.cc = system.time(replicate(B, .Call("R_get_nterms_cpp", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")))
+[06:50] 22> [06:52] 23> tm.cc
+   user  system elapsed 
+  1.392   0.104   1.496 
+[06:53] 24> q()
+Save workspace image? [y/n/c]: n
+[duncantl@datasci LineCount]$ rm lc.o
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ rm lc.o
+[duncantl@datasci LineCount]$ rm lc.so
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ rm lc.so
+[duncantl@datasci LineCount]$ rm lc.o
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O0 -c lc.c -o lc.o
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ rm lc.o
+[duncantl@datasci LineCount]$ R CMD SHLIB lc.c
+WARNING: ignoring environment value of R_HOME
+gcc -std=gnu99 -I/home/duncantl/local/lib64/R/include -DNDEBUG   -I/usr/local/include   -fpic  -g -O2  -c lc.c -o lc.o
+gcc -std=gnu99 -shared -L/usr/local/lib64 -o lc.so lc.o
+[duncantl@datasci LineCount]$ R
+WARNING: ignoring environment value of R_HOME
+
+R version 3.4.1 (2017-06-30) -- "Single Candle"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+PID = 66304 
+Time = 2019-07-07 10:08:46 
+Dir = /home/duncantl/Arthur/LineCount 
+1> B = 30
+[08:50] 2> dyn.load("lc.so")
+tm.c = system.time(replicate(B,  .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")))
+[08:56] 3> [08:57] 4> dyn.load("cpp.so")
+tm.cc = system.time(replicate(B, .Call("R_get_nterms_cpp", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")))
+[09:00] 5> [09:02] 6> tm.wc = system.time(replicate(B, system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)))
+tm.wcf = system.time(replicate(B, as.integer(gsub(" .*", "", system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)))))
+[09:11] 7> [09:12] 8> 
+[09:12] 8> tm.wc
+   user  system elapsed 
+  0.632   0.363   0.992 
+[09:16] 9> tm.wcf
+   user  system elapsed 
+  0.641   0.307   0.944 
+[09:19] 10> 
+[09:19] 10> 
+[09:19] 10> tm.wc = system.time(ans.wc <- replicate(B, system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)))
+tm.wcf = system.time(ans.wcf <- replicate(B, as.integer(gsub(" .*", "", system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)))))
+
+dyn.load("lc.so")
+tm.c = system.time(rans.c <- eplicate(B,  .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")))
+dyn.load("cpp.so")
+tm.cc = system.time(ans.cc <- replicate(B, .Call("R_get_nterms_cpp", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")))
+[10:03] 11> [10:04] 12> [10:04] 12> [10:04] 13> Error in eplicate(B, .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")) : 
+  could not find function "eplicate"
+
+Enter a frame number, or 0 to exit   
+
+1: system.time(rans.c <- eplicate(B, .Call("R_get_nterms", "/dsl/David_Kyle_Cr
+
+Selection: Enter an item from the menu, or 0 to exit
+Selection: Enter an item from the menu, or 0 to exit
+Selection: 0
+Timing stopped at: 0.004 0 3.88
+[10:04] 13> tm.wc = system.time(ans.wc <- replicate(B, system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)))
+tm.wcf = system.time(ans.wcf <- replicate(B, as.integer(gsub(" .*", "", system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)))))
+
+dyn.load("lc.so")
+tm.c = system.time(ans.c <- replicate(B,  .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")))
+dyn.load("cpp.so")
+tm.cc = system.time(ans.cc <- replicate(B, .Call("R_get_nterms_cpp", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")))
+[10:21] 14> [10:22] 15> [10:22] 15> [10:22] 16> 
+[10:23] 17> [10:23] 18> 
+[10:25] 19> [10:25] 19> [10:25] 19> 
+[10:41] 23> ans.wc
+ [1] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+ [2] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+ [3] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+ [4] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+ [5] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+ [6] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+ [7] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+ [8] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+ [9] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[10] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[11] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[12] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[13] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[14] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[15] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[16] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[17] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[18] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[19] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[20] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[21] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[22] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[23] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[24] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[25] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[26] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[27] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[28] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[29] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[30] "926189 /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt"
+[13:25] 24> ans.wcf
+ [1] 926189 926189 926189 926189 926189 926189 926189 926189 926189 926189
+[11] 926189 926189 926189 926189 926189 926189 926189 926189 926189 926189
+[21] 926189 926189 926189 926189 926189 926189 926189 926189 926189 926189
+[13:29] 25> ans.c
+ [1] 926189 926189 926189 926189 926189 926189 926189 926189 926189 926189
+[11] 926189 926189 926189 926189 926189 926189 926189 926189 926189 926189
+[21] 926189 926189 926189 926189 926189 926189 926189 926189 926189 926189
+[13:33] 26> ans.cc
+ [1] 926189 926189 926189 926189 926189 926189 926189 926189 926189 926189
+[11] 926189 926189 926189 926189 926189 926189 926189 926189 926189 926189
+[21] 926189 926189 926189 926189 926189 926189 926189 926189 926189 926189
+[13:36] 27> 

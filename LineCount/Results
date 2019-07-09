@@ -1,0 +1,67 @@
+dyn.load("lc.so")
+system.time({n = .Call("R_get_nterms", "/dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt")})
+   user  system elapsed 
+  0.059   0.011   0.071 
+[43:11] 3> system.time({txt = system("wc -l /dsl/David_Kyle_Creativeness/Newspaper_Model/output/topic_counts.txt", intern = TRUE)})
+   user  system elapsed 
+  0.025   0.009   0.036 
+
+
+file = "topic_counts.txt"
+
+B = 30
+tm.wc = system.time(ans.wc <- replicate(B, system(paste0("wc -l ", file), intern = TRUE)))
+tm.wcf = system.time(ans.wcf <- replicate(B, as.integer(gsub(" .*", "", system(paste0("wc -l ", file), intern = TRUE)))))
+
+dyn.load("lc.so")
+tm.c = system.time(ans.c <- replicate(B,  .Call("R_get_nterms", file)))
+dyn.load("cpp.so")
+tm.cc = system.time(ans.cc <- replicate(B, .Call("R_get_nterms_cpp", file)))
+
+tms = list(wc = tm.wc, wcf = tm.wcf, c = tm.c, cpp = tm.cc)
+e = sapply(tms, `[`, "elapsed")
+
+
+
+
+
+DSI machine
+Initial run with B = 30, c was faster, C++ a little slower and wc and wcf slowest.
+Then run again several times and same order as OSX
+
+source("timings.R")
+[28:30] 2> e/min(e)
+      wc      wcf        c      cpp
+1.098236 1.000000 1.783812 2.302663
+[28:54] 3> source("timings.R")
+[29:12] 4> e/min(e)
+      wc      wcf        c      cpp
+1.010601 1.000000 1.830389 2.365135
+[29:15] 5> q()
+Save workspace image? [y/n/c]: n
+[duncantl@datasci LineCount]$ R
+ source("timings.R")
+ e/min(e)
+     wc     wcf       c     cpp
+1.00000 1.03125 1.60000 1.98750
+
+
+wc and wcf very close.
+Consistently better than 
+
+
+
+tm.wc
+   user  system elapsed 
+  0.691   0.324   1.012 
+tm.wcf
+   user  system elapsed 
+  0.650   0.335   0.981 
+tm.c
+   user  system elapsed 
+  1.061   0.106   1.166 
+tm.cc
+   user  system elapsed 
+  1.401   0.102   1.503 
+
+
