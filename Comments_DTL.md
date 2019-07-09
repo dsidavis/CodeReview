@@ -102,6 +102,7 @@ The following are some initial thoughts when perusing the code.
   + timestamp messes with Make.
 + Are the Makevars hard-coded? Yes - appears so.
   + Don't do this.
+  + Users set these in ~/.R/Makevars and they are picked up from $R_HOME/etc/Makeconf.
 
 + using int for counts in Info in rcpp_parse_topic_state
   + Could the number exceed the max integer.
